@@ -2,6 +2,9 @@
 
 This project is a cloud-based solution designed to display information about your AWS account, including the services and resources in use. Below is a breakdown of the system architecture, tools used, and deployment processes.
 
+
+![][image]
+
 ## Features
 - Displays details about AWS services in your account across all regions.
 - Uses Terraform for infrastructure provisioning.
@@ -78,3 +81,6 @@ The system utilizes the following AWS services:
 ---
 
 This project provides an automated, secure, and scalable solution for managing and displaying AWS account information within a private cloud environment.
+
+
+[image]:./Images/sela-project.png
