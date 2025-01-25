@@ -169,6 +169,7 @@ resource "aws_iam_policy" "app_policy" {
         "ecr:GetAuthorizationToken",
         "ecr:BatchGetImage",
         "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
         "ecr:Pull",
         "ecr:DescribeImages",
         "ecr:GetDownloadUrlForLayer"
