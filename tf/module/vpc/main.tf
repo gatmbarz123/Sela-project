@@ -61,8 +61,8 @@ resource "aws_ssm_association" "ssm-script" {
       "sudo usermod -aG docker ec2-user",
       "sudo systemctl start docker",
       "sudo systemctl enable docker",
-      "sudo docker pull ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.image_tag}",
-      "sudo docker run -d -e AWS_REGION=${var.aws_region} -e DYNAMODB_TABLE=${var.dynamodb_name} -p 5000:5000 ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.image_tag}"
+      "sudo docker pull ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:v${var.image_tag}",
+      "sudo docker run -d -e AWS_REGION=${var.aws_region} -e DYNAMODB_TABLE=${var.dynamodb_name} -p 5000:5000 ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:v${var.image_tag}"
     ])
   }
 }
