@@ -27,3 +27,19 @@ variable "instacne_count"{
 variable "alb_sg"{
   type = string 
 }
+
+variable "public_subnets"{
+  type = list(string)
+}
+
+variable "path_private_key"{
+  type  = string
+}
+
+variable "dynamodb_arn"{
+  type = string
+}
+
+variable "env"{
+    type    =   string
+}

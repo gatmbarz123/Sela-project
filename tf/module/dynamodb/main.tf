@@ -13,6 +13,13 @@ resource "aws_dynamodb_table" "dynamodb_app" {
     }
 
     hash_key = var.dydb_hash_key # "ServiceName" 
+    range_key = var.dydb_attribute_name_2
+
+    global_secondary_index {
+       name               = "RegionIndex"  
+       hash_key           = var.dydb_attribute_name_2  
+       projection_type    = "ALL" 
+    }
 
     tags  = {
     Environment = var.env 

@@ -22,6 +22,17 @@ resource "aws_lb_target_group" "alb-tg" {
   port     = var.tg_port #80
   protocol = var.tg_protocol #"HTTP"
   vpc_id   = var.vpc_id 
+
+  health_check {
+    path                = var.path_health_check 
+    protocol            = var.health_check_protocol 
+    interval            = var.health_check_interval 
+    timeout             = var.health_check_timeout 
+    healthy_threshold   = var.healthy_threshold_count 
+    unhealthy_threshold = var.unhealthy_threshold_count 
+    matcher             =  var.matcher 
+  }
+  
 }
 
 resource "aws_lb_target_group_attachment" "alb-tg-attachment" {
@@ -63,6 +74,14 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 
 
   egress {

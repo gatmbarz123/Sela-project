@@ -47,6 +47,35 @@ variable "instance_id"{
   type  = list
 }
 
+
+variable "health_check_protocol"{
+    type = string
+}
+
+variable "health_check_interval"{
+    type = string
+}
+
+variable "health_check_timeout"{
+    type = string 
+}
+
+variable "healthy_threshold_count"{
+    type = string 
+}
+
+variable "unhealthy_threshold_count"{
+    type = string 
+}
+
+variable "matcher"{
+    type = string
+}
+
+variable "path_health_check"{
+    type = string
+}
+
 #LB_listener
 
 variable "listener_port"{

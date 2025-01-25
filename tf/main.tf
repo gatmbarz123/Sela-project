@@ -29,6 +29,14 @@ module "vpc"{
     cidr = var.cidr 
     vpc_name = var.vpc_name
     nat_gateway = var.nat_gateway
+    aws_region  = var.aws_region
+    app_sg    = module.ec2.app_sg
+    vpc_endpoint_type = var.vpc_endpoint_type
+    ecr_repo_name = var.ecr_repo_name
+    ecr_scan_on_push = var.ecr_scan_on_push
+
+
+    env = var.env
 }
 
 module "ec2"{
@@ -37,8 +45,12 @@ module "ec2"{
   key_pairs = var.key_pairs
   vpc_id = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets
+  public_subnets  = module.vpc.public_subnets
   instacne_count = var.instacne_count
   alb_sg  = module.alb.alb_sg
+  path_private_key  = var.path_private_key
+  dynamodb_arn  = module.dynamodb.dynamodb_arn
+  env = var.env
 }
 
 module "alb"{
@@ -54,6 +66,13 @@ module "alb"{
   tg_protocol = var.tg_protocol
   tg_attachment_port  = var.tg_attachment_port
   instance_id = module.ec2.instance_id
+  health_check_protocol = var.health_check_protocol
+  health_check_interval = var.health_check_interval
+  health_check_timeout  = var.health_check_timeout
+  healthy_threshold_count = var.healthy_threshold_count
+  unhealthy_threshold_count = var.unhealthy_threshold_count
+  matcher  = var.matcher
+  path_health_check = var.path_health_check
 
   listener_port = var.listener_port
   listener_protocol   =  var.listener_protocol
@@ -78,4 +97,17 @@ module "dynamodb"{
   dydb_attribute_type = var.dydb_attribute_type
   dydb_hash_key = var.dydb_hash_key
   env = var.env
+}
+
+module "lambda"{
+  source = "./module/lambda"
+  lambda_filename = var.lambda_filename
+  function_name = var.function_name
+  lambda_handler  = var.lambda_handler
+  runtime = var.runtime
+  aws_region  = var.aws_region
+  dynamodb_arn  = module.dynamodb.dynamodb_arn
+  timeout_lambda  = var.timeout_lambda
+
+  depends_on = [module.vpc , module.dynamodb , module.alb , module.ec2 ]
 }

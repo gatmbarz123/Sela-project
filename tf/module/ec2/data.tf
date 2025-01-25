@@ -1,9 +1,9 @@
-data "aws_ami" "ubuntu_ami" {
+data "aws_ami" "awsn2_ami" {
   most_recent = true
-  owners      = ["099720109477"]  # Canonical owner ID for Ubuntu AMIs
+  owners      = ["137112412989"] # Amazon owner ID for Amazon Linux AMIs
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"] # Amazon Linux 2 AMI pattern
   }
 }
