@@ -175,11 +175,6 @@ resource "aws_iam_policy" "app_policy" {
         "ecr:GetDownloadUrlForLayer"
       ]
         Resource = "*"
-    },
-    {
-        Effect = "Allow"
-        Action =["secretsmanager:GetSecretValue"]
-        Resource = "arn:aws:secretsmanager:eu-north-1:590183945610:secret:StockKey_output-G4jy3z"
     }
   ]
 })
