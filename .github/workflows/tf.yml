@@ -83,8 +83,10 @@ jobs:
 
       - name: Terraform plan
         run: | 
-          terraform plan -var-file var.tfvars
-
+          terraform plan -var-file var.tfvars -var="path_private_key=${{ env.PRIVATE_KEY}}"
+        env: 
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          
       - name: Terraform apply 
         run: |
           terraform apply -var-file var.tfvars -var="path_private_key=${{ env.PRIVATE_KEY}}" -auto-approve
