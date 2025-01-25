@@ -65,13 +65,14 @@ jobs:
           terraform_version: 1.7.0
           terraform_wrapper: false
 
-      - name: Generate vars.tfvars file
+      - name: Add vars to var.tfvars file
         run: |
           echo "aws_region = \"${{ vars.AWS_REGION }}\"" >> var.tfvars
           echo "env = \"${{ vars.ENV }}\"" >> var.tfvars
           echo "listener_ca = \"${{ secrets.CERTIFICATE_ARN }}\"" >> var.tfvars
           echo "image_tag = \"${{ github.run_id }}\"" >> var.tfvars
           echo "ecr_repo_name = \"${{ vars.ECR_REPO_NAME }}\"" >> var.tfvars
+          Echo "path_private_key = \"${{ secrets.PRIVATE_KEY }}\"" >> var.tfvars
       
       - name: Print var.tfvars for debugging
         run: |
