@@ -72,7 +72,7 @@ jobs:
           echo "listener_ca = \"${{ secrets.CERTIFICATE_ARN }}\"" >> var.tfvars
           echo "image_tag = \"${{ github.run_id }}\"" >> var.tfvars
           echo "ecr_repo_name = \"${{ vars.ECR_REPO_NAME }}\"" >> var.tfvars
-          Echo "path_private_key = \"${{ secrets.PRIVATE_KEY }}\"" >> var.tfvars
+          echo "path_private_key = \"${{ secrets.PRIVATE_KEY }}\"" >> var.tfvars
       
       - name: Print var.tfvars for debugging
         run: |
