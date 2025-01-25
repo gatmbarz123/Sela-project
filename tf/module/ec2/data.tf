@@ -7,3 +7,4 @@ data "aws_ami" "awsn2_ami" {
     values = ["amzn2-ami-hvm-*-x86_64-gp2"] # Amazon Linux 2 AMI pattern
   }
 }
+

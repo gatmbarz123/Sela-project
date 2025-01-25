@@ -66,6 +66,7 @@ resource "aws_instance" "bastion_host"{
     vpc_security_group_ids = [aws_security_group.bastion_host_sg.id]
     subnet_id   = var.public_subnets[0]
     instance_type   =   var.instance_type
+    iam_instance_profile = aws_iam_instance_profile.profile-app.name
 
     tags = {
     Name = "bastion_host"
@@ -173,6 +174,11 @@ resource "aws_iam_policy" "app_policy" {
         "ecr:GetDownloadUrlForLayer"
       ]
         Resource = "*"
+    },
+    {
+        Effect = "Allow"
+        Action =["secretsmanager:GetSecretValue"]
+        Resource = "arn:aws:secretsmanager:eu-north-1:590183945610:secret:StockKey_output-G4jy3z"
     }
   ]
 })
