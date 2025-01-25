@@ -94,7 +94,7 @@ resource "aws_iam_role_policy" "lambda_dynamodb_policy" {
           "lambda:InvokeFunction"
         ]
         Resource = "*"
-      }     
+      }
     ]
   })
 }

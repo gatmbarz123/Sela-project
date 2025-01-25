@@ -1,2 +1,2 @@
 .terraform
-var.tfvars
+destroy.tfvars

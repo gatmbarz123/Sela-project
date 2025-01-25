@@ -161,6 +161,18 @@ resource "aws_iam_policy" "app_policy" {
       "Action": "dynamodb:*",
       "Effect": "Allow",
       "Resource": var.dynamodb_arn
+    },
+    {
+        Effect = "Allow"
+        Action = [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchGetImage",
+        "ecr:GetRepositoryPolicy",
+        "ecr:Pull",
+        "ecr:DescribeImages",
+        "ecr:GetDownloadUrlForLayer"
+      ]
+        Resource = "*"
     }
   ]
 })

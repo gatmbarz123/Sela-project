@@ -12,3 +12,8 @@ output "vpc_id" {
   value = module.vpc.vpc_id
   description = "The ID of the VPC"
 }
+
+
+output "account_id" {
+  value = data.aws_caller_identity.account_id_pull.account_id
+}

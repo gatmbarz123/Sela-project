@@ -7,20 +7,13 @@ on:
 
 
 jobs: 
-  Terraform:
+  Build:
     runs-on: ubuntu-latest      
-
+    
     steps:
       - name: Checkout the repo code
         uses: actions/checkout@v3
       
-      
-      - name: Setup Terrafrom 
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.7.0
-          terraform_wrapper: false
-     
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -42,3 +35,53 @@ jobs:
       - name: Push docker image to ECR 
         run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/${{ vars.ECR_REPO_NAME }}:v${{ github.run_id }}
+
+
+
+
+  Deployment:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: tf
+
+    steps:
+      - name: Checkout the repo code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+          mask-aws-account-id: 'no'
+      
+      - name: Setup Terrafrom 
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.0
+          terraform_wrapper: false
+
+      - name: Generate vars.tfvars file
+        run: |
+          echo "aws_region = \"${{ vars.AWS_REGION }}\"" > var.tfvars
+          echo "env = \"${{ vars.ENV }}\"" >> vars.tfvars
+          echo "listener_ca = \"${{ secrets.CERTIFICATE_ARN }}\"" >> var.tfvars
+          echo "image_tag = \"${{ github.run_id }}\"" >> var.tfvars
+          echo "ecr_repo_name = \"${{ vars.ECR_REPO_NAME }}\"" >> var.tfvars
+
+      - name: Terraform init
+        run: |
+          terraform init 
+
+      - name: Terraform plan
+        run: | 
+          terraform plan -var-file var.tfvars
+
+      - name: Terraform apply 
+        run: |
+          terraform apply -var-file var.tfvars -auto-approve
+
+      
