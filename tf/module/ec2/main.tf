@@ -73,14 +73,14 @@ resource "aws_instance" "bastion_host"{
 
 
   provisioner "file" {
-    content   = file(var.path_private_key)
+    content   = var.path_private_key
     destination = "/home/ec2-user/private-key.pem"  
 
     connection {
       type        = "ssh"
       host        = self.public_ip
       user        = "ec2-user"                     
-      private_key = file(var.path_private_key)
+      private_key = var.path_private_key
     }
   }
 
@@ -93,7 +93,7 @@ resource "aws_instance" "bastion_host"{
       type        = "ssh"
       host        = self.public_ip
       user        = "ec2-user"
-      private_key = file(var.path_private_key)
+      private_key = var.path_private_key
     }
   }
 

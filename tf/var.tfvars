@@ -14,7 +14,7 @@ nat_gateway = true
 instance_type = "t3.micro"
 key_pairs = "StockKey" 
 instacne_count = 1
-path_private_key  = "/home/gatmbarz123/Desktop/Keys/StockKey.pem"
+## path_private_key  add in the github actions cicd
 
 
 #ALB - VARS     
