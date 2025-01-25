@@ -1,3 +1,12 @@
+variable "aws_region"{
+    type    =   string
+}
+variable "env"{
+    type    =   string
+}
+
+#VPC
+
 variable "private_subnets"{
     type    = list(string)
 }
@@ -22,9 +31,7 @@ variable "nat_gateway"{
     type    =  string
 }
 
-variable "aws_region"{
-    type    =   string
-}
+#SSM
 
 variable "app_sg"{
     type    = string
@@ -34,14 +41,21 @@ variable "vpc_endpoint_type"{
     type    =   string
 }
 
-variable "env"{
-    type    =   string
+variable "dynamodb_name"{
+    type = string 
 }
 
+variable "image_tag"{
+    type = string
+}
+
+
+#ECR 
 variable "ecr_repo_name"{
     type = string
 }
 
-variable "ecr_scan_on_push" {
-    type = string
-}
+
+
+
+

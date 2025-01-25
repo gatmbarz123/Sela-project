@@ -206,11 +206,11 @@ variable "vpc_endpoint_type"{
 }
 
 
-#------------------------------------------ECR 
-variable "ecr_repo_name"{
+variable "image_tag"{
     type = string
 }
 
-variable "ecr_scan_on_push" {
+#------------------------------------------ECR 
+variable "ecr_repo_name"{
     type = string
 }

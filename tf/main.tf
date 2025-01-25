@@ -29,13 +29,16 @@ module "vpc"{
     cidr = var.cidr 
     vpc_name = var.vpc_name
     nat_gateway = var.nat_gateway
-    aws_region  = var.aws_region
+
+    
     app_sg    = module.ec2.app_sg
     vpc_endpoint_type = var.vpc_endpoint_type
+    dynamodb_name = module.dynamodb.dynamodb_name
+
     ecr_repo_name = var.ecr_repo_name
-    ecr_scan_on_push = var.ecr_scan_on_push
+    image_tag = var.image_tag
 
-
+    aws_region  = var.aws_region
     env = var.env
 }
 

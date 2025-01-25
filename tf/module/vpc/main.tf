@@ -55,13 +55,14 @@ resource "aws_ssm_association" "ssm-script" {
 
   parameters = {
     commands = join("\n", [
+      "aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com",
       "sudo yum update -y",
       "sudo yum install -y docker",
       "sudo usermod -aG docker ec2-user",
       "sudo systemctl start docker",
       "sudo systemctl enable docker",
-      "sudo docker pull diskoproject/sela-image1",
-      "sudo docker run -d -p 5000:5000 diskoproject/sela-image1"
+      "sudo docker pull ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.image_tag}",
+      "sudo docker run -d -e AWS_REGION=${var.aws_region} -e DYNAMODB_TABLE=${var.dynamodb_name} -p 5000:5000 ${data.aws_caller_identity.account_id_pull.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.image_tag}"
     ])
   }
 }
@@ -69,9 +70,4 @@ resource "aws_ssm_association" "ssm-script" {
 
 #-----------------------------------------------------------------------------ECR
 
-resource "aws_ecr_repository" "my_repository" {
-  name                 = var.ecr_repo_name  #service_outputs
-  image_scanning_configuration {
-    scan_on_push = var.ecr_scan_on_push  # true 
-  }
-}
+

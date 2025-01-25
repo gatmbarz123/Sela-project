@@ -1,0 +1,44 @@
+name: "GitHub Actions terraform build "
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs: 
+  Terraform:
+    runs-on: ubuntu-latest      
+
+    steps:
+      - name: Checkout the repo code
+        uses: actions/checkout@v3
+      
+      
+      - name: Setup Terrafrom 
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.0
+          terraform_wrapper: false
+     
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+          mask-aws-account-id: 'no'
+
+      
+      - name: Login to ECR AWS 
+        run: |                                                                                                        
+            aws ecr get-login-password --region ${{ vars.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com
+
+    
+      - name: Build docker image 
+        run: |
+          docker build ./app -t  ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/${{ vars.ECR_REPO_NAME }}:v${{ github.run_id }}
+
+      - name: Push docker image to ECR 
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/${{ vars.ECR_REPO_NAME }}:v${{ github.run_id }}
