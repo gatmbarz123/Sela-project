@@ -67,7 +67,7 @@ jobs:
 
       - name: Generate vars.tfvars file
         run: |
-          echo "aws_region = \"${{ vars.AWS_REGION }}\"" > var.tfvars
+          echo "aws_region = \"${{ vars.AWS_REGION }}\"" >> var.tfvars
           echo "env = \"${{ vars.ENV }}\"" >> vars.tfvars
           echo "listener_ca = \"${{ secrets.CERTIFICATE_ARN }}\"" >> var.tfvars
           echo "image_tag = \"${{ github.run_id }}\"" >> var.tfvars
