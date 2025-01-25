@@ -72,6 +72,10 @@ jobs:
           echo "listener_ca = \"${{ secrets.CERTIFICATE_ARN }}\"" >> var.tfvars
           echo "image_tag = \"${{ github.run_id }}\"" >> var.tfvars
           echo "ecr_repo_name = \"${{ vars.ECR_REPO_NAME }}\"" >> var.tfvars
+      
+      - name: Print var.tfvars for debugging
+        run: |
+          cat var.tfvars
 
       - name: Terraform init
         run: |
