@@ -13,7 +13,7 @@ nat_gateway = true
 #EC2 - VARS     
 instance_type = "t3.micro"
 key_pairs = "StockKey" 
-instacne_count = 1
+instacne_count = 2
 ## path_private_key  add in the github actions cicd
 
 
